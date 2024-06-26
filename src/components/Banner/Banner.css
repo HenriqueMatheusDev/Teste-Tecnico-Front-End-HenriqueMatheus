@@ -1,0 +1,50 @@
+.banner-container {
+    position: relative;
+    width: 100%;
+    height: 300px;  
+    overflow: hidden;
+  }
+  
+  .banner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+  }
+  
+  .banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .banner.active {
+    opacity: 1;
+  }
+
+@media (max-width: 1200px) {
+    .banner-container {
+      height: 300px;  
+    }
+  }
+  
+  @media (max-width: 992px) {
+    .banner-container {
+      height: 250px;  
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .banner-container {
+      height: 200px;  
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .banner-container {
+      height: 150px;  
+    }
+  }

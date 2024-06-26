@@ -1,14 +1,26 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import Navbar from '../components/Navbar/Navbar';
+import Banner from '../components/Banner/Banner';
+import MiniBanner from '../components/MiniBanner/MiniBanner';
 import ProductList from '../components/Product/ProductList';
+import './HomePage.css';
 
-function HomePage({ onAddToCart }) {
+function HomePage({ onAddToCart, totalItems }) {
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+  };
+
   return (
     <div>
-      <nav>
-        <Link to="/cart">Ver Carrinho</Link>
-      </nav>
-      <ProductList onAddToCart={onAddToCart} />
+      <Navbar totalItems={totalItems} onSearch={handleSearch} />
+      <Banner />
+      <div className="section-title">
+        <h2>MUNDO GAMER</h2>
+      </div>
+      <MiniBanner />
+      <ProductList onAddToCart={onAddToCart} searchTerm={searchTerm} />
     </div>
   );
 }

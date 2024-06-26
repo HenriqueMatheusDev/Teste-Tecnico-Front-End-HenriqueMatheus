@@ -2,9 +2,14 @@ import React, { useState, useEffect } from 'react';
 import Pagination from '../Pagination/Pagination';
 import './ProductList.css';
 
+import product1 from '../assets/images/product1.jpg';
+import product2 from '../assets/images/product1.jpg';
+import product3 from '../assets/images/product1.jpg';
+import product4 from '../assets/images/product1.jpg';
+
 const ITEMS_PER_PAGE = 10;
 
-function ProductList({ onAddToCart }) {
+function ProductList({ onAddToCart, searchTerm }) {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -18,11 +23,12 @@ function ProductList({ onAddToCart }) {
   };
 
   const getProductsFromAPI = async () => {
-    return Array.from({ length: 50 }, (_, i) => ({
-      id: i + 1,
-      name: `Produto ${i + 1}`,
-      price: (Math.random() * 100).toFixed(2) // Preço aleatório para os produtos
-    }));
+    return [
+      { id: 1, name: 'Produto 1', price: '29.99', image: product1 },
+      { id: 2, name: 'Produto 2', price: '49.99', image: product2 },
+      { id: 3, name: 'Produto 3', price: '19.99', image: product3 },
+      { id: 4, name: 'Produto 4', price: '19.99', image: product4 },
+    ];
   };
 
   const handlePageChange = (pageNumber) => {
@@ -34,7 +40,10 @@ function ProductList({ onAddToCart }) {
   };
 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const paginatedProducts = products.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  const filteredProducts = products.filter(product =>
+    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  const paginatedProducts = filteredProducts.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
   return (
     <div className="product-list-container">
@@ -42,13 +51,15 @@ function ProductList({ onAddToCart }) {
       <div className="product-list">
         {paginatedProducts.map((product) => (
           <div key={product.id} className="product-item" onClick={() => handleAddToCart(product)}>
-            {product.name} - R${product.price}
+            <img src={product.image} alt={product.name} className="product-image" />
+            <p>{product.name}</p>
+            <p>R${product.price}</p>
           </div>
         ))}
       </div>
       <Pagination 
         currentPage={currentPage} 
-        totalPages={Math.ceil(products.length / ITEMS_PER_PAGE)} 
+        totalPages={Math.ceil(filteredProducts.length / ITEMS_PER_PAGE)} 
         onPageChange={handlePageChange} 
       />
     </div>
