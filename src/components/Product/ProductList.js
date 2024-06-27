@@ -1,11 +1,13 @@
+// src/components/ProductList.js
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Pagination from '../Pagination/Pagination';
 import './ProductList.css';
 
 import product1 from '../assets/images/product1.jpg';
-import product2 from '../assets/images/product1.jpg';
-import product3 from '../assets/images/product1.jpg';
-import product4 from '../assets/images/product1.jpg';
+import product2 from '../assets/images/product2.jpg';
+import product3 from '../assets/images/product3.jpg';
+import product4 from '../assets/images/product4.jpg';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -35,10 +37,6 @@ function ProductList({ onAddToCart, searchTerm }) {
     setCurrentPage(pageNumber);
   };
 
-  const handleAddToCart = (product) => {
-    onAddToCart(product);
-  };
-
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const filteredProducts = products.filter(product =>
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -50,11 +48,11 @@ function ProductList({ onAddToCart, searchTerm }) {
       <h1>Lista de Produtos</h1>
       <div className="product-list">
         {paginatedProducts.map((product) => (
-          <div key={product.id} className="product-item" onClick={() => handleAddToCart(product)}>
+          <Link to={`/product/${product.id}`} key={product.id} className="product-item">
             <img src={product.image} alt={product.name} className="product-image" />
             <p>{product.name}</p>
             <p>R${product.price}</p>
-          </div>
+          </Link>
         ))}
       </div>
       <Pagination 

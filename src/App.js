@@ -1,8 +1,9 @@
+// src/App.js
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import CartPage from './pages/CartPage';
-
+import ProductDetails from './pages/ProductDetails'; 
 
 function App() {
   const [cartItems, setCartItems] = useState([]);
@@ -37,6 +38,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage onAddToCart={handleAddToCart} totalItems={cartItems.length} />} />
         <Route path="/cart" element={<CartPage cartItems={cartItems} onRemoveFromCart={handleRemoveFromCart} onUpdateQuantity={handleUpdateQuantity} />} />
+        <Route path="/product/:productId" element={<ProductDetails onAddToCart={handleAddToCart} />} /> 
       </Routes>
     </Router>
   );
