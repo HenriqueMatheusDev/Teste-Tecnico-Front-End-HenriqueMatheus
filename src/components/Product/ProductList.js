@@ -1,4 +1,3 @@
-// src/components/ProductList.js
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Pagination from '../Pagination/Pagination';
@@ -45,7 +44,7 @@ function ProductList({ onAddToCart, searchTerm }) {
 
   return (
     <div className="product-list-container">
-      <h1>Lista de Produtos</h1>
+      <h1>LISTA DE PRODUTOS</h1>
       <div className="product-list">
         {paginatedProducts.map((product) => (
           <Link to={`/product/${product.id}`} key={product.id} className="product-item">

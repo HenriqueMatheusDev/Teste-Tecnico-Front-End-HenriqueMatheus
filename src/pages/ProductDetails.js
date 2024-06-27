@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import Navbar from '../components/Navbar/Navbar';
 import product1Image from '../components/assets/images/product1.jpg';
 import product2Image from '../components/assets/images/product2.jpg';
 import product3Image from '../components/assets/images/product3.jpg';
 import product4Image from '../components/assets/images/product4.jpg';
+import './ProductDetails.css'
 
-const ProductDetails = ({ onAddToCart }) => {
+const ProductDetails = ({ onAddToCart, totalItems }) => {
   const { productId } = useParams();
+  const navigate = useNavigate();
+
   const [product, setProduct] = useState(null);
+  const [quantity, setQuantity] = useState(1); // Estado para controlar a quantidade, inicializado com 1
 
   useEffect(() => {
     fetchProduct(productId);
@@ -28,13 +33,19 @@ const ProductDetails = ({ onAddToCart }) => {
     return products.find(product => product.id === parseInt(id));
   };
 
+  const handleQuantityChange = (event) => {
+    const value = parseInt(event.target.value, 10);
+    setQuantity(value); 
+  };
+
   const handleAddToCartClick = () => {
     if (product) {
       const productToAdd = {
         ...product,
-        quantity: 1
+        quantity: quantity 
       };
-      onAddToCart(productToAdd);
+      onAddToCart(productToAdd); 
+      navigate('/cart'); 
     }
   };
 
@@ -43,12 +54,30 @@ const ProductDetails = ({ onAddToCart }) => {
   }
 
   return (
-    <div className="product-details">
-      <h2>{product.name}</h2>
-      <img src={product.image} alt={product.name} className="product-image" />
-      <p>Preço: R${product.price}</p>
-      <button onClick={handleAddToCartClick}>Adicionar ao Carrinho</button>
-      <Link to="/">Voltar para a Lista de Produtos</Link>
+    <div>
+      <Navbar totalItems={totalItems} />
+      <div className="product-details-select">
+      <img src={product.image} alt={product.name} className="product-image-select" />
+      <div className='info-product-select'>
+        <h2>{product.name}</h2>
+        <p>Preço: R${product.price}</p>
+        <div>
+          <label htmlFor="quantity">Quantidade:</label>
+          <input
+            type="number"
+            id="quantity"
+            name="quantity"
+            min="1"
+            value={quantity}
+            onChange={handleQuantityChange} 
+          /> 
+           <button className="button-add-products" onClick={handleAddToCartClick}>Adicionar ao Carrinho</button>
+       
+        </div>
+      </div>
+        
+      
+      </div>
     </div>
   );
 };
